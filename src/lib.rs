@@ -6,9 +6,6 @@
 use std::collections::{HashMap, HashSet};
 use std::fs;
 
-#[cfg(test)]
-
-
 /// A single file entry in the index.
 #[derive(Debug, Clone)]
 pub struct FileEntry {
@@ -246,27 +243,32 @@ pub struct RetrieverStats {
     pub unique_terms: usize,
 }
 
-/// Test helper to create temporary files in /tmp
-#[cfg(test)]
-fn test_create_file(path: &str, content: &str) -> FileEntry {
-    let full_path = Path::new(path);
-    if let Some(parent) = full_path.parent() {
-        fs::create_dir_all(parent).unwrap();
-    }
-    fs::write(path, content).unwrap();
-
-    let word_count = content.split_whitespace().count();
-    FileEntry {
-        path: path.to_string(),
-        rel_path: path.replace("/tmp/test_deckhand_", "").splitn(2, '/').last().unwrap_or(&path).to_string(),
-        words: word_count,
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::path::Path;
     use std::sync::atomic::{AtomicUsize, Ordering};
+
+    static TEST_COUNTER: AtomicUsize = AtomicUsize::new(0);
+
+    fn test_temp_dir() -> String {
+        format!("/tmp/test_deckhand_{}_{}", std::process::id(), TEST_COUNTER.fetch_add(1, Ordering::SeqCst))
+    }
+
+    fn test_create_file(path: &str, content: &str) -> FileEntry {
+        let full_path = Path::new(path);
+        if let Some(parent) = full_path.parent() {
+            fs::create_dir_all(parent).unwrap();
+        }
+        fs::write(path, content).unwrap();
+
+        let word_count = content.split_whitespace().count();
+        FileEntry {
+            path: path.to_string(),
+            rel_path: path.replace("/tmp/test_deckhand_", "").splitn(2, '/').last().unwrap_or(path).to_string(),
+            words: word_count,
+        }
+    }
 
     static TEST_COUNTER: AtomicUsize = AtomicUsize::new(0);
 

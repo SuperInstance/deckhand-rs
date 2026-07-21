@@ -2,12 +2,13 @@
 name = "si-deckhand-rs"
 version = "0.1.0"
 edition = "2021"
-description = "BM25 retriever - zero-dependency Rust implementation"
+description = "BM25 retriever — zero-dependency Rust implementation. Drop-in replacement for Python deckhand."
 license = "MIT"
+repository = "https://github.com/SuperInstance/deckhand-rs"
+keywords = ["bm25", "search", "retriever", "deckhand", "zero-dependency"]
+categories = ["text-processing", "algorithms"]
 
 [dependencies]
-
-[dev-dependencies]
 
 [lib]
 name = "deckhand_rs"
