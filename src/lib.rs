@@ -270,14 +270,6 @@ mod tests {
         }
     }
 
-    static TEST_COUNTER: AtomicUsize = AtomicUsize::new(0);
-
-    fn test_temp_dir() -> String {
-        // Use atomic counter to create unique test directory per test
-        let id = TEST_COUNTER.fetch_add(1, Ordering::SeqCst);
-        format!("/tmp/test_deckhand_{}_{}", std::process::id(), id)
-    }
-
     #[test]
     fn test_search_returns_results() {
         let dir = test_temp_dir();
