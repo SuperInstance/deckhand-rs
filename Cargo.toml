@@ -1,0 +1,14 @@
+[package]
+name = "si-deckhand-rs"
+version = "0.1.0"
+edition = "2021"
+description = "BM25 retriever - zero-dependency Rust implementation"
+license = "MIT"
+
+[dependencies]
+
+[dev-dependencies]
+
+[lib]
+name = "deckhand_rs"
+path = "src/lib.rs"
